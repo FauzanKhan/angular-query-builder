@@ -1,0 +1,174 @@
+.query-builder-wrapper {
+  text-align: left;
+  position: relative;
+  display: inline-block; }
+  .query-builder-wrapper .operator-wrapper {
+    position: relative;
+    display: inline-block; }
+    .query-builder-wrapper .operator-wrapper .operator {
+      margin: 0 10px; }
+    .query-builder-wrapper .operator-wrapper .operator-popover {
+      display: none;
+      position: absolute;
+      top: -60px;
+      transform: translateX(-50%);
+      left: 0;
+      right: 0;
+      margin: 0 auto;
+      background: #FFF;
+      padding: 10px;
+      border: 1px solid #EAEAEA;
+      width: 142px;
+      text-align: center; }
+      .query-builder-wrapper .operator-wrapper .operator-popover .operator-option {
+        cursor: pointer;
+        margin: 2px;
+        padding: 3px;
+        border: 1px solid #EAEAEA; }
+    .query-builder-wrapper .operator-wrapper.active .operator-popover {
+      display: inline-block;
+      z-index: 9; }
+  .query-builder-wrapper .operand-selection {
+    position: relative;
+    display: inline-block; }
+    .query-builder-wrapper .operand-selection .button {
+      margin: 0;
+      margin-bottom: 10px; }
+    .query-builder-wrapper .operand-selection .operand-popover {
+      display: none;
+      position: absolute;
+      width: 300px;
+      top: 50px;
+      left: 0;
+      right: 0;
+      margin: 0 auto;
+      border: 1px solid #EAEAEA;
+      background: #FFF;
+      border-radius: 3px; }
+      .query-builder-wrapper .operand-selection .operand-popover .operand-popover-content {
+        position: relative; }
+        .query-builder-wrapper .operand-selection .operand-popover .operand-popover-content .triangle {
+          position: absolute;
+          border-top: 1px solid #EAEAEA;
+          border-right: 1px solid #EAEAEA;
+          background: #FAFAFA;
+          height: 10px;
+          width: 10px;
+          top: -6px;
+          left: 20px;
+          -webkit-transform: rotate(-45deg);
+          -moz-transform: rotate(-45deg);
+          -ms-transform: rotate(-45deg);
+          -o-transfor: rotate(-45deg);
+          transform: rotate(-45deg); }
+      .query-builder-wrapper .operand-selection .operand-popover .popover-body {
+        padding: 15px 12px; }
+        .query-builder-wrapper .operand-selection .operand-popover .popover-body .operation-wrapper {
+          width: 48%;
+          margin-right: 5px;
+          display: inline-block; }
+        .query-builder-wrapper .operand-selection .operand-popover .popover-body .value-wrapper {
+          width: 48%;
+          margin-left: 5px;
+          display: inline-block; }
+        .query-builder-wrapper .operand-selection .operand-popover .popover-body .done-btn-wrapper {
+          text-align: right; }
+        .query-builder-wrapper .operand-selection .operand-popover .popover-body label {
+          font-size: 12px; }
+        .query-builder-wrapper .operand-selection .operand-popover .popover-body select {
+          width: 100%;
+          height: 35px;
+          border-radius: 2px;
+          border: 1px solid #EAEAEA;
+          box-shadow: none;
+          padding: 5px;
+          margin-bottom: 10px; }
+        .query-builder-wrapper .operand-selection .operand-popover .popover-body input {
+          width: 100%;
+          height: 30px;
+          border: 1px solid #EAEAEA;
+          border-radius: 3px;
+          margin-bottom: 15px; }
+        .query-builder-wrapper .operand-selection .operand-popover .popover-body textarea {
+          width: 97%;
+          height: 120px;
+          border: 1px solid #EAEAEA;
+          border-radius: 3px;
+          margin-bottom: 15px; }
+      .query-builder-wrapper .operand-selection .operand-popover .popover-header {
+        background: #FAFAFA;
+        position: relative;
+        border-bottom: 1px solid #EAEAEA;
+        border-radius: 3px 3px 0 0; }
+        .query-builder-wrapper .operand-selection .operand-popover .popover-header .heading {
+          font-size: 16px;
+          font-weight: bold;
+          color: gray;
+          padding: 15px 10px;
+          border-right: 1px solid #EAEAEA;
+          display: inline-block; }
+        .query-builder-wrapper .operand-selection .operand-popover .popover-header .query-types {
+          display: inline-block; }
+          .query-builder-wrapper .operand-selection .operand-popover .popover-header .query-types .query-type {
+            display: inline-block;
+            padding: 0 12px; }
+            .query-builder-wrapper .operand-selection .operand-popover .popover-header .query-types .query-type label {
+              cursor: pointer;
+              vertical-align: 2px;
+              color: gray; }
+      .query-builder-wrapper .operand-selection .operand-popover .col-name-wraper {
+        width: 100%; }
+    .query-builder-wrapper .operand-selection.active .operand-popover {
+      display: inline-block;
+      z-index: 9; }
+  .query-builder-wrapper .bracket {
+    font-size: 32px; }
+    .query-builder-wrapper .bracket.left-bracket {
+      margin-right: 10px; }
+    .query-builder-wrapper .bracket.right-bracket {
+      margin-left: 10px; }
+  .query-builder-wrapper .query-builder-label {
+    font-size: 12px;
+    font-weight: 600;
+    border-radius: 5px;
+    padding: 2px 8px;
+    cursor: pointer; }
+    .query-builder-wrapper .query-builder-label.neutral {
+      background: #444;
+      color: #FFF; }
+  .query-builder-wrapper .query-builder-btn {
+    color: #333;
+    border-radius: 3px;
+    text-decoration: none;
+    padding: 10px 15px;
+    background: #FFF;
+    transition: background 200ms ease;
+    cursor: pointer;
+    border: 1px solid #EAEAEA;
+    position: relative;
+    display: inline-block;
+    margin-bottom: 15px; }
+    .query-builder-wrapper .query-builder-btn.no-margins {
+      margin: 0; }
+    .query-builder-wrapper .query-builder-btn.small {
+      font-size: 12px; }
+    .query-builder-wrapper .query-builder-btn.query-builder-btn-dropdown {
+      padding-right: 35px; }
+      .query-builder-wrapper .query-builder-btn.query-builder-btn-dropdown::after {
+        content: '';
+        position: absolute;
+        top: 48%;
+        right: 0;
+        margin-right: 18px;
+        width: 0;
+        height: 0;
+        border-right: 4px solid transparent;
+        border-left: 4px solid;
+        border-left-color: transparent;
+        border-top: 4px solid #333; }
+
+.add-more-wrapper {
+  display: block;
+  margin-bottom: 20px; }
+  .add-more-wrapper .new-entry-btn {
+    cursor: pointer; }

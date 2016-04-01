@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="app">
+<head>
+	<meta charset="UTF-8">
+	<title>ngQueryBuilder | An angular Directive for creating SQL queries from the UI</title>
+	<meta name="description" content="An angular Directive for creating SQL queries from the UI">
+	<meta name="keywords" content="angular, directive, sql, query, query builder, rules, rules builder, rules engine, query engine">
+	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+	<link href='https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,300,600,700' rel='stylesheet' type='text/css'>
+	<link rel="stylesheet" href="dist/css/queryBuilder.css">
+	<link rel="stylesheet" href="dist/css/demo.css"> 
+</head>
+<body ng-controller="masterController">
+	<header>
+		<h1>ngQueryBuilder <br><small>An Angular Directive for creating SQL Queries.</small></h1>
+	</header>
+	<div class="query-builder-demo-container">
+		<div class="demo-container">
+			<query-builder data="queryBuilder" columns="columns" operations="operations"></query-builder>	
+		</div>
+	</div>
+	<footer>
+		<a href="https://github.com/FauzanKhan/angular-tabs" target="_blank">
+			<img src="http://cdn.flaticon.com/png/256/25231.png" alt=""></--> Fork on GitHub
+		</a>
+	</footer>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.7.0/lodash.min.js"></script>
+	<script src="https://code.jquery.com/jquery-1.12.2.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.0-rc.2/angular.min.js"></script>
+	<script src="dist/js/app.min.js"></script>
+	<script src="src/js/queryBuilder.js"></script>
+</body>
+</html>
