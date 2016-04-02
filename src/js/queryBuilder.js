@@ -2,7 +2,7 @@
 
   var app = angular.module("ngQueryBuilder", []);
 
-  app.directive('queryBuilder', function($compile){
+  app.directive('queryBuilder', function($compile, templates){
     return {
       restrict: 'EA',
       scope : {
@@ -12,6 +12,7 @@
       },
       link: function(scope, ele, attr){
         var query = scope.data;
+        var getTemplates = templates.get;
         var customQuery = {
           type: 'custom',
           colName: '',
@@ -170,7 +171,130 @@
           return expression.join('');
         }
 
-        var getTemplates = function(currIndex){
+        // var getTemplates = function(currIndex){
+        //   var templates = {};
+        //   templates.addMoreBtn = '<span class="new-entry-btn" ng-click="newEntry($event)" data-curr-index="{{currIndex}}"><i class="material-icons">add_circle</i></span>';
+        //   templates.operator = '<div class="operator-wrapper popover-parent" data-operator-id="'+currIndex+'">'+
+        //                           '<span class="operator query-builder-label neutral" ng-click="togglePopover($event)">AND</span>'+
+        //                           '<div class="operator-popover query-popover">'+
+        //                             // '<span class="operator-option" ng-click="changeOperator(\'+\', $event)">+</span>'+
+        //                             // '<span class="operator-option" ng-click="changeOperator(\'-\', $event)">-</span>'+
+        //                             '<span class="operator-option" ng-click="changeOperator(\'AND\', $event)">AND</span>'+
+        //                             '<span class="operator-option" ng-click="changeOperator(\'OR\', $event)">OR</span>'+
+        //                             '<span class="operator-option add-bracket" ng-click="addBrackets($event)" ng-hide="query.bracketIds.indexOf('+currIndex+') > -1">(A+B)</span>'+
+        //                             '<span class="operator-option remove-bracket" ng-show="query.bracketIds.indexOf('+currIndex+') > -1" ng-click="removeBrackets($event)"><strike>(A+B)</strike></span>'
+        //                           '</div>'+
+        //                         '</div>';
+        //   templates.operandSelection = '<div class="operand-selection popover-parent" data-opererand-id="'+currIndex+'">'+
+        //                                   '<span class="query-builder-btn default query-builder-btn-dropdown" ng-click="togglePopover($event)">'+
+        //                                     '<span ng-if="query.operands['+currIndex+'].colName || query.operands['+currIndex+'].custom">'+
+        //                                       '{{query.operands['+currIndex+'].colName+" "+query.operands['+currIndex+'].operation+" "+query.operands['+currIndex+'].value+""+query.operands['+currIndex+'].custom}}</span>'+
+        //                                     '<span ng-hide="query.operands['+currIndex+'].colName || query.operands['+currIndex+'].custom">Make Selection</span>'+
+        //                                   '</span>'+
+        //                                   '<div class="operand-popover query-popover">'+
+        //                                     '<div class="operand-popover-content">'+
+        //                                     '<span class="triangle"></span>'+
+        //                                     '<div class="popover-header">'+
+        //                                       '<div class="heading">'+
+        //                                         '<span>Query Type</span>'+
+        //                                       '</div>'+
+        //                                       '<div class="query-types">'+
+        //                                         '<div class="query-type">'+
+        //                                           '<input type="radio" name="query-type-'+currIndex+'" id="query-type-'+currIndex+'-basic" value="basic" ng-model="query.operands['+currIndex+'].type" ng-change="changeQueryType('+currIndex+',\'basic\' )"/>'+
+        //                                           '<label for="query-type-'+currIndex+'-basic">Basic</label>'+
+        //                                         '</div>'+
+        //                                          '<div class="query-type">'+
+        //                                           '<input type="radio" name="query-type-'+currIndex+'" id="query-type-'+currIndex+'-custom" value="custom" ng-model="query.operands['+currIndex+'].type" ng-change="changeQueryType('+currIndex+',\'custom\' )"/>'+
+        //                                           '<label for="query-type-'+currIndex+'-custom">Custom</label>'+
+        //                                         '</div>'+
+        //                                       '</div>'+
+        //                                     '</div>'+
+        //                                       '<div class="popover-body">'+
+        //                                         '<div ng-show="query.operands['+currIndex+'].type==\'basic\'">'+
+        //                                           '<div class="col-name-wrapper">'+
+        //                                             '<label>Select Column</label>'+
+        //                                             '<select ng-model="query.operands['+currIndex+'].colName" ng-options="col for col in columns"></select>'+
+        //                                           '</div>'+
+        //                                           '<div class="operation-wrapper">'+
+        //                                             '<label>Select Operation</label>'+
+        //                                              '<select ng-model="query.operands['+currIndex+'].operation" ng-options="opreration for opreration in operations">'+
+        //                                             '</select>'+
+        //                                           '</div>'+
+        //                                           '<div class="value-wrapper">'+
+        //                                            '<label>Value</label>'+
+        //                                             '<input type="text" ng-model="query.operands['+currIndex+'].value" />'+
+        //                                           '</div>'+
+        //                                         '</div>'+
+        //                                         '<div ng-show="query.operands['+currIndex+'].type==\'custom\'">'+
+        //                                           '<textarea ng-model="query.operands['+currIndex+'].custom" plaveholder="Enter custom sub query"></textarea>'+
+        //                                         '</div>'+
+        //                                         '<div class="done-btn-wrapper">'+
+        //                                           '<query-builder-btn class="query-builder-btn small default no-margins" ng-click="togglePopover($event)">Done</query-builder-btn>'+
+        //                                         '</div>'+
+        //                                       '</div>'+
+        //                                     '</div>'+
+        //                                   '</div>'+
+        //                                 '</div>';
+        //   return templates;
+        // }
+
+        var buildTemplate = function(expression, operands){
+          // var expArr = expression.split(/([^0-9A-Za-z])/g);
+          var bracketCount = 0;
+          var expressionArray = expression.split(/((?:\(|\)|[A-Z]+|\d+))/g);
+          var currOperand = 0;
+          _.remove(expressionArray, function(e){
+            return e == '';
+          })
+          for(var i=0; i<expressionArray.length; i++){
+            var temp = expressionArray[i];
+            var template = getTemplates(i);
+            if(temp == '('){
+              var bracketId = scope.query.bracketIds[bracketCount];
+              var leftBracket = '<span class="bracket opening-bracket" data-bracket-id="'+bracketId+'">(</span>';
+              ele.find('.query-builder-wrapper').append(leftBracket);
+              bracketCount += 1;
+            }
+            else if(temp == ')'){
+              var bracketId = scope.query.bracketIds[bracketCount];
+              var rightBracket = '<span class="bracket closing-bracket" data-bracket-id="'+bracketId+'">)</span>';
+              ele.find('.query-builder-wrapper').append(rightBracket);
+              bracketCount += 1;
+            }
+            else if(temp == 'AND' || temp == 'OR'){
+              var template = getTemplates(parseInt(currOperand));
+               ele.find('.query-builder-wrapper').append($compile(template.operator)(scope));
+            }
+            else if(!isNaN(temp)){
+              var template = getTemplates(parseInt(temp));
+              ele.find('.query-builder-wrapper').append($compile(template.operandSelection)(scope));
+              currOperand += 1;
+            }
+          }
+        }
+        ele.append('<div class="query-builder-wrapper"></div>');
+        ele.append('<div class="add-more-wrapper"></div>');
+        ele.find('.add-more-wrapper').append($compile(getTemplates(0).addMoreBtn)(scope));
+        if(!scope.query.expression){
+          ele.find('.query-builder-wrapper').append($compile(getTemplates(0).operandSelection)(scope));
+        }
+        else{
+          buildTemplate(scope.query.expression, scope.query.operands);
+        }
+        console.log(scope.query.bracketIds);
+        angular.element('.query-builder-wrapper').on('click', '.popover-parent', function(e){
+          e.stopPropagation();
+        });
+        angular.element('body').on('click', function(){
+          angular.element('.query-builder-wrapper .popover-parent').removeClass('active');
+        })
+      }
+    }
+  });
+
+app.factory('templates', function($compile){
+  return{
+    get:  function(currIndex){
           var templates = {};
           templates.addMoreBtn = '<span class="new-entry-btn" ng-click="newEntry($event)" data-curr-index="{{currIndex}}"><i class="material-icons">add_circle</i></span>';
           templates.operator = '<div class="operator-wrapper popover-parent" data-operator-id="'+currIndex+'">'+
@@ -235,60 +359,8 @@
                                           '</div>'+
                                         '</div>';
           return templates;
-        }
-
-        var buildTemplate = function(expression, operands){
-          // var expArr = expression.split(/([^0-9A-Za-z])/g);
-          var bracketCount = 0;
-          var expressionArray = expression.split(/((?:\(|\)|[A-Z]+|\d+))/g);
-          var currOperand = 0;
-          _.remove(expressionArray, function(e){
-            return e == '';
-          })
-          for(var i=0; i<expressionArray.length; i++){
-            var temp = expressionArray[i];
-            var template = getTemplates(i);
-            if(temp == '('){
-              var bracketId = scope.query.bracketIds[bracketCount];
-              var leftBracket = '<span class="bracket opening-bracket" data-bracket-id="'+bracketId+'">(</span>';
-              ele.find('.query-builder-wrapper').append(leftBracket);
-              bracketCount += 1;
-            }
-            else if(temp == ')'){
-              var bracketId = scope.query.bracketIds[bracketCount];
-              var rightBracket = '<span class="bracket closing-bracket" data-bracket-id="'+bracketId+'">)</span>';
-              ele.find('.query-builder-wrapper').append(rightBracket);
-              bracketCount += 1;
-            }
-            else if(temp == 'AND' || temp == 'OR'){
-              var template = getTemplates(parseInt(currOperand));
-               ele.find('.query-builder-wrapper').append($compile(template.operator)(scope));
-            }
-            else if(!isNaN(temp)){
-              var template = getTemplates(parseInt(temp));
-              ele.find('.query-builder-wrapper').append($compile(template.operandSelection)(scope));
-              currOperand += 1;
-            }
-          }
-        }
-        ele.append('<div class="query-builder-wrapper"></div>');
-        ele.append('<div class="add-more-wrapper"></div>');
-        ele.find('.add-more-wrapper').append($compile(getTemplates(0).addMoreBtn)(scope));
-        if(!scope.query.expression){
-          ele.find('.query-builder-wrapper').append($compile(getTemplates(0).operandSelection)(scope));
-        }
-        else{
-          buildTemplate(scope.query.expression, scope.query.operands);
-        }
-        console.log(scope.query.bracketIds);
-        angular.element('.query-builder-wrapper').on('click', '.popover-parent', function(e){
-          e.stopPropagation();
-        });
-        angular.element('body').on('click', function(){
-          angular.element('.query-builder-wrapper .popover-parent').removeClass('active');
-        })
-      }
     }
-  });
+  }
+})
 
 })(angular);

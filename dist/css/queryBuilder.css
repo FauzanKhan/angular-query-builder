@@ -10,20 +10,23 @@
     .query-builder-wrapper .operator-wrapper .operator-popover {
       display: none;
       position: absolute;
-      top: -60px;
-      transform: translateX(-50%);
+      top: -50px;
+      transform: translateX(-30%);
       left: 0;
       right: 0;
       margin: 0 auto;
       background: #FFF;
-      padding: 10px;
+      padding: 5px;
       border: 1px solid #EAEAEA;
-      width: 142px;
+      width: 106px;
       text-align: center; }
       .query-builder-wrapper .operator-wrapper .operator-popover .operator-option {
+        display: inline-block;
+        border-radius: 2px;
         cursor: pointer;
-        margin: 2px;
+        margin: 0px 1px;
         padding: 3px;
+        font-size: 12px;
         border: 1px solid #EAEAEA; }
     .query-builder-wrapper .operator-wrapper.active .operator-popover {
       display: inline-block;
@@ -91,7 +94,7 @@
           margin-bottom: 15px; }
         .query-builder-wrapper .operand-selection .operand-popover .popover-body textarea {
           width: 97%;
-          height: 120px;
+          height: 110px;
           border: 1px solid #EAEAEA;
           border-radius: 3px;
           margin-bottom: 15px; }

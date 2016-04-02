@@ -17,20 +17,23 @@ $light-gray: #FAFAFA;
     .operator-popover{
       display: none;
       position: absolute;
-      top: -60px;
-      transform: translateX(-50%);
+      top: -50px;
+      transform: translateX(-30%);
       left: 0;
       right: 0;
       margin: 0 auto;
       background: $white;
-      padding: 10px;
+      padding: 5px;
       border: 1px solid $border-color;
-      width: 142px;
+      width: 106px;
       text-align: center;
       .operator-option{
+        display: inline-block;
+        border-radius: 2px;
         cursor: pointer;
-        margin: 2px;
+        margin: 0px 1px;
         padding: 3px;
+        font-size: 12px;
         border: 1px solid $border-color;
       }
     }
@@ -113,7 +116,7 @@ $light-gray: #FAFAFA;
           }
           textarea{
              width: 97%;
-             height: 120px;
+             height: 110px;
              border: 1px solid $border-color;
             border-radius: 3px;
             margin-bottom: 15px;
