@@ -3,7 +3,9 @@
   position: relative;
   display: inline-block; }
   .query-builder-wrapper .query-popover {
-    /*box-shadow: 0 0 20px $shadow-color;*/ }
+    border: 1px solid #EAEAEA;
+    background: #FFF;
+    border-radius: 3px; }
   .query-builder-wrapper .operator-wrapper {
     position: relative;
     display: inline-block; }
@@ -13,13 +15,14 @@
       display: none;
       position: absolute;
       top: -55px;
+      -webkit-transform: translateX(-35%);
+      moz-transform: translateX(-35%);
+      o-transform: translateX(-35%);
       transform: translateX(-35%);
       left: 0;
       right: 0;
       margin: 0 auto;
-      background: #FFF;
       padding: 5px;
-      border: 1px solid #EAEAEA;
       width: 180px;
       text-align: center; }
       .query-builder-wrapper .operator-wrapper .operator-popover .popover-body {
@@ -32,9 +35,8 @@
           bottom: -13px;
           left: 46%;
           -webkit-transform: rotate(45deg);
-          -moz-transform: rotate(45deg);
-          -ms-transform: rotate(45deg);
-          -o-transform: rotate(45deg);
+          moz-transform: rotate(45deg);
+          o-transform: rotate(45deg);
           transform: rotate(45deg);
           border-right: 1px solid #EAEAEA;
           border-bottom: 1px solid #EAEAEA;
@@ -63,10 +65,7 @@
       top: 50px;
       left: 0;
       right: 0;
-      margin: 0 auto;
-      border: 1px solid #EAEAEA;
-      background: #FFF;
-      border-radius: 3px; }
+      margin: 0 auto; }
       .query-builder-wrapper .operand-selection .operand-popover .operand-popover-content {
         position: relative; }
         .query-builder-wrapper .operand-selection .operand-popover .operand-popover-content .triangle {
@@ -79,9 +78,8 @@
           top: -6px;
           left: 20px;
           -webkit-transform: rotate(-45deg);
-          -moz-transform: rotate(-45deg);
-          -ms-transform: rotate(-45deg);
-          -o-transfor: rotate(-45deg);
+          moz-transform: rotate(-45deg);
+          o-transform: rotate(-45deg);
           transform: rotate(-45deg); }
       .query-builder-wrapper .operand-selection .operand-popover .popover-body {
         padding: 15px 12px; }
@@ -164,7 +162,7 @@
     text-decoration: none;
     padding: 10px 15px;
     background: #FFF;
-    transition: background 200ms ease;
+    transition: background 200 ms ease;
     cursor: pointer;
     border: 1px solid #EAEAEA;
     position: relative;
@@ -189,8 +187,18 @@
         border-left-color: transparent;
         border-top: 4px solid #333; }
 
-.add-more-wrapper {
+.add-sub-query {
   display: block;
   margin-bottom: 20px; }
-  .add-more-wrapper .new-entry-btn {
-    cursor: pointer; }
+  .add-sub-query .new-entry-btn {
+    cursor: pointer;
+    height: 20px;
+    width: 20px;
+    text-align: center;
+    border-radius: 100%;
+    background: #444;
+    color: #FFF;
+    font-size: 22px;
+    font-weight: bold;
+    display: inline-block;
+    line-height: 20px; }
