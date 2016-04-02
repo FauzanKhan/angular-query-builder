@@ -15,6 +15,8 @@
 				var getTemplates = templatesFactory.get;
 				var buildTemplate = templatesFactory.build;
 				var currIndexTemp = query.expression ? query.expression.match(/[^A-Za-z()]/g) : 0;
+
+				//Object template for custom query
 				var customQuery = {
 					type: 'custom',
 					colName: '',
@@ -22,6 +24,8 @@
 					value: '',
 					custom: ''
 				}
+
+				//Object template for basic query
 				var basicQuery = {
 					type: 'basic',
 					colName: '',
@@ -29,11 +33,12 @@
 					value: '',
 					custom: ''
 				}
+
 				scope.query = query;
-				scope.currIndex = query.expression ? currIndexTemp[currIndexTemp.length - 1] : 0;
-				query.expression = query.expression ? query.expression : null; //query.expression.split(/([^A-Za-z])/g) : null;
-				query.operands = query.operands || [angular.copy(basicQuery)];
-				query.bracketIds = query.bracketIds || [];
+				scope.currIndex = query.expression ? currIndexTemp[currIndexTemp.length - 1] : 0; // currIndex refers to the index of last sub query
+				query.expression = query.expression ? query.expression : null;  
+				query.operands = query.operands || [angular.copy(basicQuery)]; // if no operands are present then push a basicQuery to oprands array
+				query.bracketIds = query.bracketIds || []; //If bracketIds are not present initialize it to an empty array
 
 				//Hides/shows Popover
 				scope.togglePopover = function(event) {
@@ -45,6 +50,7 @@
 
 				//Adds a new Sub Query
 				scope.newEntry = function(event) {
+					scope.currIndex = parseInt(scope.currIndex);
 					scope.currIndex += 1;
 					currIndex = scope.currIndex;
 					scope.query.operands.push(angular.copy(basicQuery));
@@ -52,7 +58,6 @@
 					ele.find('.query-builder-wrapper').append($compile(templates.operator)(scope));
 					ele.find('.query-builder-wrapper').append($compile(templates.operandSelection)(scope));
 					scope.query.expression = buildExpression();
-					console.log(scope.query);
 				}
 
 				//Changes type of Sub QUery
@@ -69,6 +74,7 @@
 					operatorWrapper.find('.operator').text(newOperator);
 					operatorWrapper.removeClass('active');
 					scope.query.expression = buildExpression();
+					console.log(scope.query);
 				}
 
 				//Calculates position of brackets and adds them in the DOM
@@ -79,10 +85,13 @@
 					var prev = parent.prev();
 					var leftBracket = '<span class="bracket opening-bracket" data-bracket-id="' + operatorId + '">(</span>';
 					var rightBracket = '<span class="bracket closing-bracket" data-bracket-id="' + operatorId + '">)</span>';
-					console.log("next", next, "prev", prev);
+					// if next element is not an opening bracket then add a bracket
 					if (!next.hasClass('bracket opening-bracket')) {
 						next.after(rightBracket);
 					} else {
+						//if next element is a bracket the recursively iterate to the next of next elements
+						//counting the no. of opening and closing brackets encountered
+						//when they become equal add another colsing bracket 
 						next = next.next();
 						openingBracketsCount = 1;
 						while (next.length > 0) {;
@@ -98,10 +107,13 @@
 							next = next.next();
 						}
 					}
-
+					// if prev element is not a closing bracket then add a bracket
 					if (!prev.hasClass('bracket closing-bracket')) {
 						prev.before(leftBracket);
 					} else {
+						//if prev element is a bracket the recursively iterate to the prev of prev elements
+						//counting the no. of opening and closing brackets encountered
+						//when they become equal add another opening bracket 
 						prev = prev.prev();
 						closingBracketsCount = 1;
 						while (prev.length > 0) {
@@ -142,7 +154,6 @@
 						temp.push(parseInt(bracketId));
 					}
 					scope.query.bracketIds = temp;
-					console.log(scope.query.bracketIds);
 				}
 
 				//Builds an expression corresponding to current query
@@ -159,7 +170,7 @@
 							expression.push(eleText);
 						} else {
 							eleText = elem.attr('data-opererand-id');
-							expression.push(eleText);
+							expression.push(parseInt(eleText));
 						}
 					}
 					return expression.join('');
@@ -173,7 +184,6 @@
 				} else {
 					buildTemplate(ele, scope.query.expression, scope.query.operands, scope.query.bracketIds, scope);
 				}
-				console.log(scope.query.bracketIds);
 				angular.element('.query-builder-wrapper').on('click', '.popover-parent', function(e) {
 					e.stopPropagation();
 				});
@@ -188,6 +198,7 @@
 
 		//Returns templates for sub query popover, operation popover and add more button
 		var getTemplates = function(currIndex) {
+			currIndex = parseInt(currIndex);
 			var templates = {};
 			templates.addMoreBtn = '<span class="new-entry-btn" ng-click="newEntry($event)" data-curr-index="{{currIndex}}"><span class="plus-icon">+</span></span>';
 			templates.operator = '<div class="operator-wrapper popover-parent" data-operator-id="' + currIndex + '">' +
@@ -211,7 +222,7 @@
 					'<span ng-if="query.operands[' + currIndex + '].colName || query.operands[' + currIndex + '].custom">' +
 						'{{query.operands[' + currIndex + '].colName+" "+query.operands[' + currIndex + '].operation+" "+query.operands[' + currIndex + '].value+""+query.operands[' + currIndex + '].custom}}'+
 					'</span>' +
-					'<span ng-hide="query.operands[' + currIndex + '].colName || query.operands[' + currIndex + '].custom">Make Selection</span>' +
+					'<span ng-hide="query.operands[' + currIndex + '].colName || query.operands[' + currIndex + '].custom">Enter Query</span>' +
 				'</span>' +
 				'<div class="operand-popover query-popover">' +
 					'<div class="operand-popover-content">' +
@@ -263,10 +274,10 @@
 		//Builds/Prepopulate query in DOM in case scope.data is present
 		var buildTemplate = function(ele, expression, operands, bracketIds, scope) {
 			var bracketCount = 0;
-			var expressionArray = expression.split(/((?:\(|\)|[A-Z]+|\d+))/g);
+			var expArray = expression.split(/((?:\(|\)|[A-Z]+|\d+))/g);
 			var currOperand = 0;
-			_.remove(expressionArray, function(e) {
-				return e == '';
+			expressionArray = expArray.filter(function(e) {
+				return e != '';
 			})
 			for (var i = 0; i < expressionArray.length; i++) {
 				var temp = expressionArray[i];
@@ -287,6 +298,7 @@
 				} else if (!isNaN(temp)) {
 					var template = getTemplates(parseInt(temp));
 					ele.find('.query-builder-wrapper').append($compile(template.operandSelection)(scope));
+					currOperand = parseInt(currOperand);
 					currOperand += 1;
 				}
 			}
