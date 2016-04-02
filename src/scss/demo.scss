@@ -54,6 +54,8 @@ body{
 		transition: all 900ms ease;
 		right: 50px;
 		font-size: 18px;
+		 word-break: break-all;
+		overflow: hidden;
 		&.vis{
 			opacity: 1;
 		}
@@ -106,84 +108,4 @@ body{
 	&:hover{
 		background: transparent;
 	}
-}
-
-
-.custom-popover{
-  max-width: 400px;
-  // border: 1px solid $border-color;
-  .popover-header{
-    background: $light-gray;
-    border-bottom: 1px solid $border-color;
-    .popover-header-content{
-        max-width: 75rem;
-	    margin-left: auto;
-	    margin-right: auto;
-    }
-    .title{
-      padding-top: 15px;
-      padding-bottom: 15px;
-      padding-left: 20px;
-      font-size: 17px;
-      font-weight: 600;
-      width: 18%;
-      float: left;
-    }
-    .options{
-      border-left: 1px solid $border-color;
-      padding-top: 16px;
-      padding-bottom: 16px;
-      float: right;
-      width: 65%;
-      text-align: left;
-      padding-left: 30px;
-    }
-    .option{
-      display: inline-block;
-      margin: 0 5px;
-      input{
-        margin-bottom: 0;
-      }
-      label{
-        vertical-align: 1px;
-      }
-    }
-  }
-  .popover-body{
-    min-height: 100px;
-    padding: 40px 20px;
-    text-align: center;
-    font-weight: 300;
-    line-height: 34px;
-    font-size: 24px;
-    span{
-    	font-weight: 400;
-    }
-  }
-  .popover-footer{
-  	text-align: right;
-  	padding: 40px 30px;
-  }
-}
-
-.clearfix {
-    overflow: auto;
-    zoom: 1;
-    &::before,
-    &::after {
-        content: " "; /* 1 */
-        display: table; /* 2 */
-    }
-
-    &::after {
-        clear: both;
-    }
-
-}
-
-.heading-popover, .normal-text-popover{
-	color: #999;
-	padding: 20px;
-	min-width: 200px;
-	max-width: 300px;
 }

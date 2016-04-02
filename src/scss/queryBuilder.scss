@@ -3,11 +3,15 @@ $text-color: #333;
 $label-background: #444;
 $border-color: #EAEAEA;
 $light-gray: #FAFAFA;
+$shadow-color: #CCC;
 
 .query-builder-wrapper{
     text-align: left;
   position: relative;
   display: inline-block;
+  .query-popover{
+    /*box-shadow: 0 0 20px $shadow-color;*/
+  }
   .operator-wrapper{
     position: relative;
     display: inline-block;
@@ -17,21 +21,40 @@ $light-gray: #FAFAFA;
     .operator-popover{
       display: none;
       position: absolute;
-      top: -50px;
-      transform: translateX(-30%);
+      top: -55px;
+      transform: translateX(-35%);
       left: 0;
       right: 0;
       margin: 0 auto;
       background: $white;
       padding: 5px;
       border: 1px solid $border-color;
-      width: 106px;
+      width: 180px;
       text-align: center;
+      .popover-body{
+        position: relative;
+        .triangle{
+            width: 15px;
+            height: 15px;
+            display: inline-block;
+            position: absolute;
+            bottom: -13px;
+            left: 46%;
+            -webkit-transform: rotate(45deg) ;
+            -moz-transform: rotate(45deg) ;
+            -ms-transform: rotate(45deg) ;
+            -o-transform: rotate(45deg) ;
+           transform: rotate(45deg) ;
+            border-right: 1px solid $border-color;
+            border-bottom: 1px solid $border-color;
+            background: $white;
+        }
+      }
       .operator-option{
         display: inline-block;
         border-radius: 2px;
         cursor: pointer;
-        margin: 0px 1px;
+        margin: 3px 1px;
         padding: 3px;
         font-size: 12px;
         border: 1px solid $border-color;

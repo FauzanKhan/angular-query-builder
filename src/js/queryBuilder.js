@@ -26,9 +26,6 @@
           operation: '',
           value: '',
           custom: ''
-
-
-
         }
         scope.query = query;
         var currIndexTemp = query.expression ? query.expression.match(/[^A-Za-z()]/g) : 0;
@@ -37,7 +34,10 @@
         query.operands = query.operands || [angular.copy(basicQuery)];
         query.bracketIds = query.bracketIds || [];
         scope.togglePopover = function(event){
-          angular.element(event.target).closest('.popover-parent').toggleClass('active');
+          var isVisible = angular.element(event.target).closest('.popover-parent').hasClass('active');
+          angular.element('.popover-parent').removeClass('active');
+          if(!isVisible)
+             angular.element(event.target).closest('.popover-parent').addClass('active');
         }
         scope.newEntry = function(event){
           scope.currIndex += 1;
@@ -50,7 +50,6 @@
           console.log(scope.query);
         }
         scope.changeQueryType = function(index, queryType){
-          debugger;
           if(queryType == 'basic')
             scope.query.operands[index] = angular.copy(basicQuery);
           else
@@ -171,73 +170,6 @@
           return expression.join('');
         }
 
-        // var getTemplates = function(currIndex){
-        //   var templates = {};
-        //   templates.addMoreBtn = '<span class="new-entry-btn" ng-click="newEntry($event)" data-curr-index="{{currIndex}}"><i class="material-icons">add_circle</i></span>';
-        //   templates.operator = '<div class="operator-wrapper popover-parent" data-operator-id="'+currIndex+'">'+
-        //                           '<span class="operator query-builder-label neutral" ng-click="togglePopover($event)">AND</span>'+
-        //                           '<div class="operator-popover query-popover">'+
-        //                             // '<span class="operator-option" ng-click="changeOperator(\'+\', $event)">+</span>'+
-        //                             // '<span class="operator-option" ng-click="changeOperator(\'-\', $event)">-</span>'+
-        //                             '<span class="operator-option" ng-click="changeOperator(\'AND\', $event)">AND</span>'+
-        //                             '<span class="operator-option" ng-click="changeOperator(\'OR\', $event)">OR</span>'+
-        //                             '<span class="operator-option add-bracket" ng-click="addBrackets($event)" ng-hide="query.bracketIds.indexOf('+currIndex+') > -1">(A+B)</span>'+
-        //                             '<span class="operator-option remove-bracket" ng-show="query.bracketIds.indexOf('+currIndex+') > -1" ng-click="removeBrackets($event)"><strike>(A+B)</strike></span>'
-        //                           '</div>'+
-        //                         '</div>';
-        //   templates.operandSelection = '<div class="operand-selection popover-parent" data-opererand-id="'+currIndex+'">'+
-        //                                   '<span class="query-builder-btn default query-builder-btn-dropdown" ng-click="togglePopover($event)">'+
-        //                                     '<span ng-if="query.operands['+currIndex+'].colName || query.operands['+currIndex+'].custom">'+
-        //                                       '{{query.operands['+currIndex+'].colName+" "+query.operands['+currIndex+'].operation+" "+query.operands['+currIndex+'].value+""+query.operands['+currIndex+'].custom}}</span>'+
-        //                                     '<span ng-hide="query.operands['+currIndex+'].colName || query.operands['+currIndex+'].custom">Make Selection</span>'+
-        //                                   '</span>'+
-        //                                   '<div class="operand-popover query-popover">'+
-        //                                     '<div class="operand-popover-content">'+
-        //                                     '<span class="triangle"></span>'+
-        //                                     '<div class="popover-header">'+
-        //                                       '<div class="heading">'+
-        //                                         '<span>Query Type</span>'+
-        //                                       '</div>'+
-        //                                       '<div class="query-types">'+
-        //                                         '<div class="query-type">'+
-        //                                           '<input type="radio" name="query-type-'+currIndex+'" id="query-type-'+currIndex+'-basic" value="basic" ng-model="query.operands['+currIndex+'].type" ng-change="changeQueryType('+currIndex+',\'basic\' )"/>'+
-        //                                           '<label for="query-type-'+currIndex+'-basic">Basic</label>'+
-        //                                         '</div>'+
-        //                                          '<div class="query-type">'+
-        //                                           '<input type="radio" name="query-type-'+currIndex+'" id="query-type-'+currIndex+'-custom" value="custom" ng-model="query.operands['+currIndex+'].type" ng-change="changeQueryType('+currIndex+',\'custom\' )"/>'+
-        //                                           '<label for="query-type-'+currIndex+'-custom">Custom</label>'+
-        //                                         '</div>'+
-        //                                       '</div>'+
-        //                                     '</div>'+
-        //                                       '<div class="popover-body">'+
-        //                                         '<div ng-show="query.operands['+currIndex+'].type==\'basic\'">'+
-        //                                           '<div class="col-name-wrapper">'+
-        //                                             '<label>Select Column</label>'+
-        //                                             '<select ng-model="query.operands['+currIndex+'].colName" ng-options="col for col in columns"></select>'+
-        //                                           '</div>'+
-        //                                           '<div class="operation-wrapper">'+
-        //                                             '<label>Select Operation</label>'+
-        //                                              '<select ng-model="query.operands['+currIndex+'].operation" ng-options="opreration for opreration in operations">'+
-        //                                             '</select>'+
-        //                                           '</div>'+
-        //                                           '<div class="value-wrapper">'+
-        //                                            '<label>Value</label>'+
-        //                                             '<input type="text" ng-model="query.operands['+currIndex+'].value" />'+
-        //                                           '</div>'+
-        //                                         '</div>'+
-        //                                         '<div ng-show="query.operands['+currIndex+'].type==\'custom\'">'+
-        //                                           '<textarea ng-model="query.operands['+currIndex+'].custom" plaveholder="Enter custom sub query"></textarea>'+
-        //                                         '</div>'+
-        //                                         '<div class="done-btn-wrapper">'+
-        //                                           '<query-builder-btn class="query-builder-btn small default no-margins" ng-click="togglePopover($event)">Done</query-builder-btn>'+
-        //                                         '</div>'+
-        //                                       '</div>'+
-        //                                     '</div>'+
-        //                                   '</div>'+
-        //                                 '</div>';
-        //   return templates;
-        // }
-
         var buildTemplate = function(expression, operands){
           // var expArr = expression.split(/([^0-9A-Za-z])/g);
           var bracketCount = 0;
@@ -300,16 +232,21 @@ app.factory('templates', function($compile){
           templates.operator = '<div class="operator-wrapper popover-parent" data-operator-id="'+currIndex+'">'+
                                   '<span class="operator query-builder-label neutral" ng-click="togglePopover($event)">AND</span>'+
                                   '<div class="operator-popover query-popover">'+
-                                    // '<span class="operator-option" ng-click="changeOperator(\'+\', $event)">+</span>'+
-                                    // '<span class="operator-option" ng-click="changeOperator(\'-\', $event)">-</span>'+
+                                    '<div class="popover-body">'+
+                                    '<span class="triangle"></span>'+
+                                    '<span class="operator-option" ng-click="changeOperator(\'+\', $event)">+</span>'+
+                                    '<span class="operator-option" ng-click="changeOperator(\'-\', $event)">-</span>'+
+                                    '<span class="operator-option" ng-click="changeOperator(\'*\', $event)">*</span>'+
+                                    '<span class="operator-option" ng-click="changeOperator(\'/\', $event)">/</span>'+
                                     '<span class="operator-option" ng-click="changeOperator(\'AND\', $event)">AND</span>'+
                                     '<span class="operator-option" ng-click="changeOperator(\'OR\', $event)">OR</span>'+
-                                    '<span class="operator-option add-bracket" ng-click="addBrackets($event)" ng-hide="query.bracketIds.indexOf('+currIndex+') > -1">(A+B)</span>'+
-                                    '<span class="operator-option remove-bracket" ng-show="query.bracketIds.indexOf('+currIndex+') > -1" ng-click="removeBrackets($event)"><strike>(A+B)</strike></span>'
+                                    '<span class="operator-option add-bracket" ng-click="addBrackets($event)" ng-hide="query.bracketIds.indexOf('+currIndex+') > -1">(brackets)</span>'+
+                                    '<span class="operator-option remove-bracket" ng-show="query.bracketIds.indexOf('+currIndex+') > -1" ng-click="removeBrackets($event)"><strike>(brackets)</strike></span>'+
+                                    '</div>'+
                                   '</div>'+
                                 '</div>';
           templates.operandSelection = '<div class="operand-selection popover-parent" data-opererand-id="'+currIndex+'">'+
-                                          '<span class="query-builder-btn default query-builder-btn-dropdown" ng-click="togglePopover($event)">'+
+                                          '<span class="query-builder-btn query-builder-btn-dropdown query-text" ng-click="togglePopover($event)">'+
                                             '<span ng-if="query.operands['+currIndex+'].colName || query.operands['+currIndex+'].custom">'+
                                               '{{query.operands['+currIndex+'].colName+" "+query.operands['+currIndex+'].operation+" "+query.operands['+currIndex+'].value+""+query.operands['+currIndex+'].custom}}</span>'+
                                             '<span ng-hide="query.operands['+currIndex+'].colName || query.operands['+currIndex+'].custom">Make Selection</span>'+
@@ -352,7 +289,7 @@ app.factory('templates', function($compile){
                                                   '<textarea ng-model="query.operands['+currIndex+'].custom" plaveholder="Enter custom sub query"></textarea>'+
                                                 '</div>'+
                                                 '<div class="done-btn-wrapper">'+
-                                                  '<query-builder-btn class="query-builder-btn small default no-margins" ng-click="togglePopover($event)">Done</query-builder-btn>'+
+                                                  '<button class="query-builder-btn small no-margins" ng-click="togglePopover($event)">Done</button>'+
                                                 '</div>'+
                                               '</div>'+
                                             '</div>'+
