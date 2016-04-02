@@ -14,7 +14,15 @@ An elegant, easily customizable SQL Query Builder in Angular.
 * jQuery
 
 ### Installation
-* Get the queryBuilder.min.js & queryBuilder.css files from dist folder.
+
+Install using bower
+
+```
+bower install ngQueryBuilder
+```
+#######or
+
+ Get the queryBuilder.min.js & queryBuilder.css files from dist folder.
 
 ### Usage
 * Make sure you include the  ```ngQueryBuilder``` module in you angular app: 
