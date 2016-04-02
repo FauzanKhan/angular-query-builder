@@ -2,11 +2,11 @@
 
 	var app = angular.module("ngQueryBuilder", []);
 
-	app.directive('queryBuilder', function($compile, templatesFactory) {
+	app.directive('queryBuilder', ['$compile', 'templatesFactory', function($compile, templatesFactory) {
 		return {
 			restrict: 'EA',
 			scope: {
-				'data': '=', // Object in which the expressions will be reflected
+				'data': '=', // Object in which the query will be reflected
 				'columns': '=', //Columns for building query
 				'operations': '=', //Operations  which are to be applied on columns
 			},
@@ -192,9 +192,9 @@
 				})
 			}
 		}
-	});
+	}]);
 
-	app.factory('templatesFactory', function($compile) {
+	app.factory('templatesFactory', ['$compile', function($compile) {
 
 		//Returns templates for sub query popover, operation popover and add more button
 		var getTemplates = function(currIndex) {
@@ -307,6 +307,6 @@
 			get: getTemplates,
 			build: buildTemplate
 		}
-	})
+	}])
 
 })(angular);
