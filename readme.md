@@ -1,4 +1,4 @@
-# ngQueryBuilder
+# ngQueryBuilder | Angular Query Builder
 An elegant, easily customizable SQL Query Builder in Angular.
 
 ### Description
@@ -39,6 +39,47 @@ angular.module('myApp', ['ngQueryBuilder']);
 			columns="columns"               //Columns for building query (Should be Array of Strings | eg - ['NAME', 'AGE', 'GENDER'])
 			operations="operations">   //Operations  which are to be applied on columns (Should be Array of Strings | eg - ['<', '>', '='])
 </query-builder>	
+
+```
+
+### Output JSON
+
+```
+
+{
+	"bracketIds": [3, 2, 1, 1, 2, 3], //Storing Ids for easier repopulation of stored queries
+	"expression": "(((0OR1)AND2)AND3)", // Expression corresponding to the query created by the user.
+	"operands": { // Stores the variables referenced in the expression above
+		"0": {
+			"colName": "FirstName",
+			"custom": "",
+			"operation": "is",
+			"type": "basic",
+			"value": "Tom"
+		},
+		"1": {
+			"colName": "LastName",
+			"custom": "",
+			"operation": "==",
+			"type": "basic",
+			"value": "Cruise"
+		},
+		"2": {
+			"colName": "Age",
+			"custom": "",
+			"operation": ">",
+			"type": "basic",
+			"value": "30"
+		},
+		"3": {
+			"colName": "",
+			"custom": "someFunction(convertHeightToCms(height))",
+			"operation": "",
+			"type": "custom",
+			"value": ""
+		}
+	}
+}
 
 ```
 
