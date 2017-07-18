@@ -20,7 +20,7 @@ Install using bower
 ```
 bower install ngQueryBuilder
 ```
-#######or
+###### or
 
  Get the queryBuilder.min.js & queryBuilder.css files from dist folder.
 
@@ -83,7 +83,7 @@ angular.module('myApp', ['ngQueryBuilder']);
 
 ```
 
-###Customization
+### Customization
 * You can easily customize the look and feel of the query builder by changing the following variables in the queryBuilder.scss file as per your requirement:
 
 ```
@@ -94,5 +94,5 @@ $light-gray: #FAFAFA; // Color of popover header
 ```
 * Run ```gulp sass``` to get the complied css file from css/multiselectdropdown.css
 
-###Demo
+### Demo
 visit <a href="http://fauzankhan.github.io/angular-query-builder/">http://fauzankhan.github.io/angular-query-builder/</a> to see the Query Builder in action
