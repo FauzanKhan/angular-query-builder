@@ -1,5 +1,5 @@
 # ngQueryBuilder | Angular Query Builder
-An elegant, easily customizable SQL Query Builder in Angular..
+An elegant, easily customizable SQL Query Builder in Angular.
 
 ### Description
 * An angular directive for Formula/Query Builder.
